@@ -1,0 +1,17 @@
+D:\Todo\src\Todo.Infrastructure\bin\Debug\net10.0\Todo.Infrastructure.deps.json
+D:\Todo\src\Todo.Infrastructure\bin\Debug\net10.0\Todo.Infrastructure.dll
+D:\Todo\src\Todo.Infrastructure\bin\Debug\net10.0\Todo.Infrastructure.pdb
+D:\Todo\src\Todo.Infrastructure\bin\Debug\net10.0\Todo.Application.dll
+D:\Todo\src\Todo.Infrastructure\bin\Debug\net10.0\Todo.Domain.dll
+D:\Todo\src\Todo.Infrastructure\bin\Debug\net10.0\Todo.Application.pdb
+D:\Todo\src\Todo.Infrastructure\bin\Debug\net10.0\Todo.Domain.pdb
+D:\Todo\src\Todo.Infrastructure\obj\Debug\net10.0\Todo.Infrastructure.csproj.AssemblyReference.cache
+D:\Todo\src\Todo.Infrastructure\obj\Debug\net10.0\Todo.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+D:\Todo\src\Todo.Infrastructure\obj\Debug\net10.0\Todo.Infrastructure.AssemblyInfoInputs.cache
+D:\Todo\src\Todo.Infrastructure\obj\Debug\net10.0\Todo.Infrastructure.AssemblyInfo.cs
+D:\Todo\src\Todo.Infrastructure\obj\Debug\net10.0\Todo.Infrastructure.csproj.CoreCompileInputs.cache
+D:\Todo\src\Todo.Infrastructure\obj\Debug\net10.0\Todo.Inf.6F6EFB04.Up2Date
+D:\Todo\src\Todo.Infrastructure\obj\Debug\net10.0\Todo.Infrastructure.dll
+D:\Todo\src\Todo.Infrastructure\obj\Debug\net10.0\refint\Todo.Infrastructure.dll
+D:\Todo\src\Todo.Infrastructure\obj\Debug\net10.0\Todo.Infrastructure.pdb
+D:\Todo\src\Todo.Infrastructure\obj\Debug\net10.0\ref\Todo.Infrastructure.dll

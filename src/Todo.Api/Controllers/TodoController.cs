@@ -1,0 +1,114 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using Todo.Application.DTOs;
+using Todo.Application.Services;
+
+namespace Todo.Api.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class TodoController : ControllerBase
+    {
+        private readonly ITodoService _todoService;
+
+        public TodoController(ITodoService todoService)
+        {
+            _todoService = todoService;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll([FromQuery] string filter = "all")
+        {
+            bool? isCompleted = filter switch
+            {
+                "active" => false,
+                "completed" => true,
+                _ => null
+            };
+            
+            var todos = await _todoService.GetAllTodosAsync(isCompleted);
+            return Ok(todos);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] CreateTodoRequest request)
+        {
+            try
+            {
+                var todo = await _todoService.CreateTodoAsync(request.Name);
+                return CreatedAtAction(nameof(GetAll), new { id = todo.Id }, todo);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(Guid id, [FromBody] UpdateTodoRequest request)
+        {
+            try
+            {
+                var todo = await _todoService.UpdateTodoAsync(id, request.Name);
+                return Ok(todo);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound(new { error = $"Todo avec l'ID {id} non trouvé" });
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+        }
+
+        [HttpPatch("{id}/complete")]
+        public async Task<IActionResult> MarkAsCompleted(Guid id)
+        {
+            try
+            {
+                var todo = await _todoService.MarkAsCompletedAsync(id);
+                return Ok(todo);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound(new { error = $"Todo avec l'ID {id} non trouvé" });
+            }
+        }
+
+        [HttpPatch("{id}/incomplete")]
+        public async Task<IActionResult> MarkAsNotCompleted(Guid id)
+        {
+            try
+            {
+                var todo = await _todoService.MarkAsNotCompletedAsync(id);
+                return Ok(todo);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound(new { error = $"Todo avec l'ID {id} non trouvé" });
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            await _todoService.DeleteTodoAsync(id);
+            return NoContent();
+        }
+
+        [HttpDelete("completed")]
+        public async Task<IActionResult> DeleteAllCompleted()
+        {
+            await _todoService.DeleteAllCompletedAsync();
+            return Ok(new { message = "Todos complétés supprimés avec succès" });
+        }
+
+        [HttpPatch("update-all")]
+        public async Task<IActionResult> UpdateAllStatus([FromBody] UpdateAllStatusRequest request)
+        {
+            await _todoService.UpdateAllStatusAsync(request.IsCompleted);
+            var status = request.IsCompleted ? "complétés" : "actifs";
+            return Ok(new { message = $"Todos marqués comme {status} avec succès" });
+        }
+    }
+}
