@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ZPTEsD9X1+o=",
+  "dgSpecHash": "gsJLphP441I=",
   "success": true,
-  "projectFilePath": "D:\\Todo\\src\\Todo.Application\\Todo.Application.csproj",
+  "projectFilePath": "d:\\todomvc-nuxt\\Todo\\src\\Todo.Application\\Todo.Application.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

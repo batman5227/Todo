@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "X+Pm4vpkNMk=",
+  "dgSpecHash": "IRdcRGofDU4=",
   "success": true,
-  "projectFilePath": "D:\\Todo\\src\\Todo.Api\\Todo.Api.csproj",
+  "projectFilePath": "d:\\todomvc-nuxt\\Todo\\src\\Todo.Api\\Todo.Api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\HP\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.0\\microsoft.aspnetcore.openapi.10.0.0.nupkg.sha512",
@@ -55,10 +55,10 @@
     {
       "code": "NU1603",
       "level": "Warning",
-      "message": "Todo.Api depends on Scalar.AspNetCore (>= 1.2.0) but Scalar.AspNetCore 1.2.0 was not found. Scalar.AspNetCore 1.2.3 was resolved instead.",
-      "projectPath": "D:\\Todo\\src\\Todo.Api\\Todo.Api.csproj",
+      "message": "Todo.Api dépend de Scalar.AspNetCore (>= 1.2.0) mais Scalar.AspNetCore 1.2.0 est introuvable. Scalar.AspNetCore 1.2.3 a été résolu à la place.",
+      "projectPath": "d:\\todomvc-nuxt\\Todo\\src\\Todo.Api\\Todo.Api.csproj",
       "warningLevel": 1,
-      "filePath": "D:\\Todo\\src\\Todo.Api\\Todo.Api.csproj",
+      "filePath": "d:\\todomvc-nuxt\\Todo\\src\\Todo.Api\\Todo.Api.csproj",
       "libraryId": "Scalar.AspNetCore",
       "targetGraphs": [
         "net10.0"
