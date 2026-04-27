@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "d:\\todomvc-nuxt\\Todo\\src\\Todo.Domain\\Todo.Domain.csproj": {}
+    "D:\\todomvc-nuxt\\Todo\\src\\Todo.Domain\\Todo.Domain.csproj": {}
   },
   "projects": {
-    "d:\\todomvc-nuxt\\Todo\\src\\Todo.Domain\\Todo.Domain.csproj": {
+    "D:\\todomvc-nuxt\\Todo\\src\\Todo.Domain\\Todo.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "d:\\todomvc-nuxt\\Todo\\src\\Todo.Domain\\Todo.Domain.csproj",
+        "projectUniqueName": "D:\\todomvc-nuxt\\Todo\\src\\Todo.Domain\\Todo.Domain.csproj",
         "projectName": "Todo.Domain",
-        "projectPath": "d:\\todomvc-nuxt\\Todo\\src\\Todo.Domain\\Todo.Domain.csproj",
+        "projectPath": "D:\\todomvc-nuxt\\Todo\\src\\Todo.Domain\\Todo.Domain.csproj",
         "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
-        "outputPath": "d:\\todomvc-nuxt\\Todo\\src\\Todo.Domain\\obj\\",
+        "outputPath": "D:\\todomvc-nuxt\\Todo\\src\\Todo.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

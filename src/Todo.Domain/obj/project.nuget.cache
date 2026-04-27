@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "f1y19CvS+F0=",
+  "dgSpecHash": "H0uhludfWjA=",
   "success": true,
-  "projectFilePath": "d:\\todomvc-nuxt\\Todo\\src\\Todo.Domain\\Todo.Domain.csproj",
+  "projectFilePath": "D:\\todomvc-nuxt\\Todo\\src\\Todo.Domain\\Todo.Domain.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

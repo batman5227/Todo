@@ -2,6 +2,35 @@
   "version": 3,
   "targets": {
     "net10.0": {
+      "FluentValidation/12.1.1": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/FluentValidation.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/FluentValidation.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "FluentValidation.DependencyInjectionExtensions/12.1.1": {
+        "type": "package",
+        "dependencies": {
+          "FluentValidation": "12.1.1"
+        },
+        "compile": {
+          "lib/net8.0/FluentValidation.DependencyInjectionExtensions.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/FluentValidation.DependencyInjectionExtensions.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Humanizer.Core/2.14.1": {
         "type": "package",
         "compile": {
@@ -661,6 +690,22 @@
           "Microsoft.AspNetCore.App"
         ]
       },
+      "Scrutor/7.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyModel": "10.0.0"
+        },
+        "compile": {
+          "lib/net10.0/Scrutor.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0/Scrutor.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
       "SQLitePCLRaw.bundle_e_sqlite3/2.1.11": {
         "type": "package",
         "dependencies": {
@@ -1077,6 +1122,9 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
+          "FluentValidation": "12.1.1",
+          "FluentValidation.DependencyInjectionExtensions": "12.1.1",
+          "Scrutor": "7.0.0",
           "Todo.Domain": "1.0.0"
         },
         "compile": {
@@ -1113,6 +1161,36 @@
     }
   },
   "libraries": {
+    "FluentValidation/12.1.1": {
+      "sha512": "EPpkIe1yh1a0OXyC100oOA8WMbZvqUu5plwhvYcb7oSELfyUZzfxV48BLhvs3kKo4NwG7MGLNgy1RJiYtT8Dpw==",
+      "type": "package",
+      "path": "fluentvalidation/12.1.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "fluent-validation-icon.png",
+        "fluentvalidation.12.1.1.nupkg.sha512",
+        "fluentvalidation.nuspec",
+        "lib/net8.0/FluentValidation.dll",
+        "lib/net8.0/FluentValidation.xml"
+      ]
+    },
+    "FluentValidation.DependencyInjectionExtensions/12.1.1": {
+      "sha512": "D0VXh4dtjjX2aQizuaa0g6R8X3U1JaVqJPfGCvLwZX9t/O2h7tkpbitbadQMfwcgSPdDbI2vDxuwRMv/Uf9dHA==",
+      "type": "package",
+      "path": "fluentvalidation.dependencyinjectionextensions/12.1.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "fluent-validation-icon.png",
+        "fluentvalidation.dependencyinjectionextensions.12.1.1.nupkg.sha512",
+        "fluentvalidation.dependencyinjectionextensions.nuspec",
+        "lib/net8.0/FluentValidation.DependencyInjectionExtensions.dll",
+        "lib/net8.0/FluentValidation.DependencyInjectionExtensions.xml"
+      ]
+    },
     "Humanizer.Core/2.14.1": {
       "sha512": "lQKvtaTDOXnoVJ20ibTuSIOf2i0uO0MPbDhd1jm238I+U/2ZnRENj0cktKZhtchBMtCUSRQ5v4xBCUbKNmyVMw==",
       "type": "package",
@@ -2592,6 +2670,30 @@
         "scalar.aspnetcore.nuspec"
       ]
     },
+    "Scrutor/7.0.0": {
+      "sha512": "wHWaroody48jnlLoq/REwUltIFLxplXyHTP+sttrc8P7+jkiVqf38afDidJNv4qgD/6zz2NKOYg06xLZ1bG7wQ==",
+      "type": "package",
+      "path": "scrutor/7.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "lib/net10.0/Scrutor.dll",
+        "lib/net10.0/Scrutor.pdb",
+        "lib/net10.0/Scrutor.xml",
+        "lib/net462/Scrutor.dll",
+        "lib/net462/Scrutor.pdb",
+        "lib/net462/Scrutor.xml",
+        "lib/net8.0/Scrutor.dll",
+        "lib/net8.0/Scrutor.pdb",
+        "lib/net8.0/Scrutor.xml",
+        "lib/netstandard2.0/Scrutor.dll",
+        "lib/netstandard2.0/Scrutor.pdb",
+        "lib/netstandard2.0/Scrutor.xml",
+        "scrutor.7.0.0.nupkg.sha512",
+        "scrutor.nuspec"
+      ]
+    },
     "SQLitePCLRaw.bundle_e_sqlite3/2.1.11": {
       "sha512": "DC4nA7yWnf4UZdgJDF+9Mus4/cb0Y3Sfgi3gDnAoKNAIBwzkskNAbNbyu+u4atT0ruVlZNJfwZmwiEwE5oz9LQ==",
       "type": "package",
@@ -3138,11 +3240,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "d:\\todomvc-nuxt\\Todo\\src\\Todo.Api\\Todo.Api.csproj",
+      "projectUniqueName": "D:\\todomvc-nuxt\\Todo\\src\\Todo.Api\\Todo.Api.csproj",
       "projectName": "Todo.Api",
-      "projectPath": "d:\\todomvc-nuxt\\Todo\\src\\Todo.Api\\Todo.Api.csproj",
+      "projectPath": "D:\\todomvc-nuxt\\Todo\\src\\Todo.Api\\Todo.Api.csproj",
       "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
-      "outputPath": "d:\\todomvc-nuxt\\Todo\\src\\Todo.Api\\obj\\",
+      "outputPath": "D:\\todomvc-nuxt\\Todo\\src\\Todo.Api\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -3164,8 +3266,8 @@
         "net10.0": {
           "targetAlias": "net10.0",
           "projectReferences": {
-            "d:\\todomvc-nuxt\\Todo\\src\\Todo.Infrastructure\\Todo.Infrastructure.csproj": {
-              "projectPath": "d:\\todomvc-nuxt\\Todo\\src\\Todo.Infrastructure\\Todo.Infrastructure.csproj"
+            "D:\\todomvc-nuxt\\Todo\\src\\Todo.Infrastructure\\Todo.Infrastructure.csproj": {
+              "projectPath": "D:\\todomvc-nuxt\\Todo\\src\\Todo.Infrastructure\\Todo.Infrastructure.csproj"
             }
           }
         }
@@ -3645,7 +3747,7 @@
       "code": "NU1603",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Todo.Api dépend de Scalar.AspNetCore (>= 1.2.0) mais Scalar.AspNetCore 1.2.0 est introuvable. Scalar.AspNetCore 1.2.3 a été résolu à la place.",
+      "message": "Todo.Api depends on Scalar.AspNetCore (>= 1.2.0) but Scalar.AspNetCore 1.2.0 was not found. Scalar.AspNetCore 1.2.3 was resolved instead.",
       "libraryId": "Scalar.AspNetCore",
       "targetGraphs": [
         "net10.0"

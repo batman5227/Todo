@@ -20,10 +20,9 @@ namespace Todo.Application.Services
         public async Task<IEnumerable<TodoResponse>> GetAllTodosAsync(bool? isCompleted = null)
         {
             var todos = await _repository.GetAllAsync(isCompleted);
-            
 
             var orderedTodos = todos.OrderBy(t => t.CreatedAt);
-            
+
             return orderedTodos.Select(t => new TodoResponse(
                 t.Id,
                 t.Name,
@@ -37,7 +36,7 @@ namespace Todo.Application.Services
         {
             var todo = new TodoItem(name);
             await _repository.AddAsync(todo);
-            
+
             return new TodoResponse(
                 todo.Id,
                 todo.Name,
@@ -52,10 +51,10 @@ namespace Todo.Application.Services
             var todo = await _repository.GetByIdAsync(id);
             if (todo == null)
                 throw new KeyNotFoundException($"Todo avec l'ID {id} non trouvé");
-            
+
             todo.SetName(name);
             await _repository.UpdateAsync(todo);
-            
+
             return new TodoResponse(
                 todo.Id,
                 todo.Name,
@@ -70,10 +69,10 @@ namespace Todo.Application.Services
             var todo = await _repository.GetByIdAsync(id);
             if (todo == null)
                 throw new KeyNotFoundException($"Todo avec l'ID {id} non trouvé");
-            
+
             todo.MarkAsCompleted();
             await _repository.UpdateAsync(todo);
-            
+
             return new TodoResponse(
                 todo.Id,
                 todo.Name,
@@ -88,10 +87,10 @@ namespace Todo.Application.Services
             var todo = await _repository.GetByIdAsync(id);
             if (todo == null)
                 throw new KeyNotFoundException($"Todo avec l'ID {id} non trouvé");
-            
+
             todo.MarkAsNotCompleted();
             await _repository.UpdateAsync(todo);
-            
+
             return new TodoResponse(
                 todo.Id,
                 todo.Name,
