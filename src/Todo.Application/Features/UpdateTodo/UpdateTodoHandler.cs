@@ -8,7 +8,7 @@ public class UpdateTodoHandler : IRequestHandler<UpdateTodoCommand, TodoResponse
 {
     private readonly ITodoRepository _repository;
 
-    public UpdateTodoHandler(ITodoRepository repository)
+    public UpdateTodoHandler(ITodoRepository repository, IMediator @object)
     {
         _repository = repository;
     }
