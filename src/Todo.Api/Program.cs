@@ -4,6 +4,7 @@ using Todo.Application.Services;
 using Todo.Domain.Interfaces;
 using Todo.Infrastructure.Data;
 using Todo.Infrastructure.Repositories;
+using Todo.Api;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,12 +24,12 @@ builder.Services.AddCors(options =>
 });
 
 
-builder.Services.AddDbContext<TodoDbContext>(options =>
+builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
 builder.Services.AddScoped<ITodoRepository, TodoRepository>();
-builder.Services.AddScoped<TodoService>();
+builder.Services.AddScoped<ITodoService, TodoService>();
 
 
 builder.Services.AddControllers();
@@ -40,7 +41,7 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-    var dbContext = scope.ServiceProvider.GetRequiredService<TodoDbContext>();
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     await dbContext.Database.EnsureCreatedAsync();
 }
 
