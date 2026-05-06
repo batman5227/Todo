@@ -13,7 +13,7 @@ public class TodoItemTests
     public void SetName_WithValidName_ShouldUpdateTodoName()
     {
         // ARRANGE
-        var todo = new TodoItem("Ancien nom");
+        var todo = TodoItem.Create("Ancien nom");
         var nouveauNom = "Nouveau nom";
 
         // ACT
@@ -27,7 +27,7 @@ public class TodoItemTests
     public void SetName_WithValidName_ShouldTrimWhitespace()
     {
         // ARRANGE
-        var todo = new TodoItem("Ancien nom");
+        var todo = TodoItem.Create("Ancien nom");
         var nomAvecEspaces = "  Nouveau nom  ";
 
         // ACT
@@ -41,7 +41,7 @@ public class TodoItemTests
     public void SetName_WithNameTooShort_ShouldThrowArgumentException()
     {
         // ARRANGE
-        var todo = new TodoItem("Nom original");
+        var todo = TodoItem.Create("Nom original");
         var nomTropCourt = "a";
 
         // ACT
@@ -57,7 +57,7 @@ public class TodoItemTests
     public void SetName_WithNameTooLong_ShouldThrowArgumentException()
     {
         // ARRANGE
-        var todo = new TodoItem("Nom original");
+        var todo = TodoItem.Create("Nom original");
         var nomTropLong = new string('a', 101);
 
         // ACT
@@ -73,8 +73,7 @@ public class TodoItemTests
     public void SetName_WithEmptyName_ShouldThrowArgumentException()
     {
         // ARRANGE
-        var todo = new TodoItem("Nom original");
-
+        var todo = TodoItem.Create("Nom original");
         // ACT & ASSERT - Nom vide
         Action actVide = () => todo.SetName("");
         actVide.Should()
@@ -92,7 +91,7 @@ public class TodoItemTests
     public void SetName_ShouldUpdateUpdatedAtTimestamp()
     {
         // ARRANGE
-        var todo = new TodoItem("Nom original");
+        var todo = TodoItem.Create("Nom original");
         var dateAvant = DateTime.UtcNow;
 
         // ACT
@@ -109,7 +108,7 @@ public class TodoItemTests
     {
         // ARRANGE
         var nom = "Nom identique";
-        var todo = new TodoItem(nom);
+        var todo = TodoItem.Create(nom);
         var dateAvant = DateTime.UtcNow;
 
         // ACT
@@ -131,7 +130,7 @@ public class TodoItemTests
         var nom = "Faire les courses";
 
         // ACT
-        var todo = new TodoItem(nom);
+        var todo = TodoItem.Create(nom);
 
         // ASSERT
         todo.Id.Should().NotBeEmpty();
@@ -148,7 +147,7 @@ public class TodoItemTests
     public void Constructor_WithInvalidName_ShouldThrowArgumentException(string nomInvalide)
     {
         // ACT
-        Action act = () => new TodoItem(nomInvalide);
+        Action act = () => TodoItem.Create(nomInvalide);
 
         // ASSERT
         act.Should()
@@ -160,12 +159,12 @@ public class TodoItemTests
     public void Constructor_WithNameTooShort_ShouldThrowArgumentException()
     {
         // ACT
-        Action act = () => new TodoItem("a");
+        Action act = () => TodoItem.Create("a");
 
         // ASSERT
         act.Should()
             .Throw<ArgumentException>()
-            .WithMessage("Le nom doit contenir au minimum 2 caractères");
+            .WithMessage("Le nom doit contenir au minimum 3 caractères");
     }
 
     [Fact]
@@ -175,7 +174,7 @@ public class TodoItemTests
         var longName = new string('a', 101);
 
         // ACT
-        Action act = () => new TodoItem(longName);
+        Action act = () => TodoItem.Create(longName);
 
         // ASSERT
         act.Should()
@@ -191,7 +190,7 @@ public class TodoItemTests
     public void MarkAsCompleted_ShouldSetIsCompletedToTrue()
     {
         // ARRANGE
-        var todo = new TodoItem("Faire les courses");
+        var todo = TodoItem.Create("Faire les courses");
         var dateAvant = DateTime.UtcNow;
 
         // ACT
@@ -207,7 +206,7 @@ public class TodoItemTests
     public void MarkAsNotCompleted_ShouldSetIsCompletedToFalse()
     {
         // ARRANGE
-        var todo = new TodoItem("Faire les courses");
+        var todo =TodoItem.Create("Faire les courses");
         todo.MarkAsCompleted();
         var dateAvant = DateTime.UtcNow;
 
@@ -224,7 +223,7 @@ public class TodoItemTests
     public void ToggleComplete_WhenNotCompleted_ShouldMarkAsCompleted()
     {
         // ARRANGE
-        var todo = new TodoItem("Faire les courses");
+        var todo = TodoItem.Create("Faire les courses");
 
         // ACT
         todo.ToggleComplete();
@@ -237,7 +236,7 @@ public class TodoItemTests
     public void ToggleComplete_WhenCompleted_ShouldMarkAsNotCompleted()
     {
         // ARRANGE
-        var todo = new TodoItem("Faire les courses");
+        var todo = TodoItem.Create("Faire les courses");
         todo.MarkAsCompleted();
 
         // ACT

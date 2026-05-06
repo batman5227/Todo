@@ -34,7 +34,7 @@ namespace Todo.Application.Services
 
         public async Task<TodoResponse> CreateTodoAsync(string name)
         {
-            var todo = new TodoItem(name);
+            var todo =TodoItem.Create(name);
             await _repository.AddAsync(todo);
 
             return new TodoResponse(

@@ -11,7 +11,7 @@ namespace Todo.IntegrationTests;
 public class CustomWebApplicationFactory 
     : WebApplicationFactory<Program>
 {
-    private SqliteConnection _connection;
+    private SqliteConnection _connection = null!;
     
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -40,27 +40,7 @@ public class CustomWebApplicationFactory
             var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
             db.Database.EnsureCreated();
+    } );
 
-            SeedDatabase(db);
-        });
-    }
-
-    private static void SeedDatabase(AppDbContext db)
-    {
-        db.Todos.RemoveRange(db.Todos); 
-
-        var todo1 = new TodoItem("Todo 1");
-        var todo2 = new TodoItem("Todo 2");
-        todo2.MarkAsCompleted();
-
-        db.Todos.AddRange(todo1, todo2);
-        db.SaveChanges();
-    }
-
-    protected override void Dispose(bool disposing)
-    {
-        base.Dispose(disposing);
-
-        _connection?.Close();
     }
 }

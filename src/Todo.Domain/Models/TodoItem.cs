@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 
 namespace Todo.Domain.Models
 {
@@ -11,15 +12,28 @@ namespace Todo.Domain.Models
         public DateTime? UpdatedAt { get; private set; }
 
 
-        public TodoItem(string name)
+        private TodoItem()
         {
-            Id = Guid.NewGuid();
-            SetName(name);
-            IsCompleted = false;
-            CreatedAt = DateTime.UtcNow;
-            UpdatedAt = null;
+          
         }
 
+public static TodoItem Create(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException("Le nom ne peut pas être vide");
+            if (name.Length < 3)
+                throw new ArgumentException("Le nom doit contenir au minimum 3 caractères");
+            if (name.Length > 100)
+                throw new ArgumentException("Le nom doit contenir au maximum 100 caractères");
+            return new TodoItem
+            {
+                Id = Guid.NewGuid(),
+                Name = name.Trim(),
+                IsCompleted = false,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = null
+            };
+        }
         public void SetName(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
