@@ -247,6 +247,19 @@ public class TodoItemTests
     }
 
     #endregion
+
+    [Fact]
+    public void Delete_ShouldRemoveTodo()
+    {
+        // ARRANGE
+        var todo = TodoItem.Create("Faire les courses");
+
+        // ACT
+        Action act = () => todo.Delete();
+
+        // ASSERT
+        act.Should().Throw<NotImplementedException>();
+    }
 }
 
 
