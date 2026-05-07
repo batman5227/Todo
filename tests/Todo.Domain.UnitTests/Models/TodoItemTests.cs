@@ -249,7 +249,7 @@ public class TodoItemTests
     #endregion
 
     [Fact]
-    public void Delete_ShouldRemoveTodo()
+    public void Delete_ShouldThrowNotImplementedException()
     {
         // ARRANGE
         var todo = TodoItem.Create("Faire les courses");
@@ -260,6 +260,8 @@ public class TodoItemTests
         // ASSERT
         act.Should().Throw<NotImplementedException>();
     }
+
+
 }
 
 

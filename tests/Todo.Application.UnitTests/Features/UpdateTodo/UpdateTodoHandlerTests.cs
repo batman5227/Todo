@@ -61,12 +61,13 @@ public class UpdateTodoHandlerTests
     }
 
    
-    private TodoItem CreateTodoWithId(string name, Guid id)
+        private TodoItem CreateTodoWithId(string name, Guid id)
     {
-        var todo = new TodoItem(name);
+        var todo = TodoItem.Create(name);
         var field = typeof(TodoItem).GetField("<Id>k__BackingField",
             System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
         field?.SetValue(todo, id);
         return todo;
     }
+
 }

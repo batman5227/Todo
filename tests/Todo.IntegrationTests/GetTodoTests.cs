@@ -8,6 +8,8 @@ namespace Todo.IntegrationTests;
 
 public class GetTodosTests : IClassFixture<CustomWebApplicationFactory>
 {
+    private sealed record ErrorResponse(string? error);
+
     private readonly HttpClient _client;
 
     public GetTodosTests(CustomWebApplicationFactory factory)
@@ -32,68 +34,46 @@ public class GetTodosTests : IClassFixture<CustomWebApplicationFactory>
         createdTodo.UpdatedAt.Should().BeNull();
     }
 
-[Fact]
-public async Task GetTodos_Should_Return_All_Todos_When_IsCompleted_Is_Null()
-{
-    await _client.PostAsJsonAsync(
-        "/api/todo",
-        new CreateTodoRequest("Gurenn Lagann"));
+    [Fact]
+    public async Task GetTodos_Should_Return_All_Todos_When_IsCompleted_Is_Null()
+    {
+        await _client.PostAsJsonAsync("/api/todo", new CreateTodoRequest("Gurenn Lagann"));
+        await _client.PostAsJsonAsync("/api/todo", new CreateTodoRequest("Black Clover"));
+        await _client.PostAsJsonAsync("/api/todo", new CreateTodoRequest("Inuyasha"));
 
-    await _client.PostAsJsonAsync(
-        "/api/todo",
-        new CreateTodoRequest("Black Clover"));
+        var response = await _client.GetAsync("/api/todo");
 
-    await _client.PostAsJsonAsync(
-        "/api/todo",
-        new CreateTodoRequest("Inuyasha"));
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-    var response =
-        await _client.GetAsync("/api/todo");
+        var todos = await response.Content.ReadFromJsonAsync<List<TodoResponse>>();
+        todos.Should().NotBeNull();
 
-    response.StatusCode.Should().Be(HttpStatusCode.OK);
+        todos.Should().Contain(t => t.Name == "Gurenn Lagann");
+        todos.Should().Contain(t => t.Name == "Black Clover");
+        todos.Should().Contain(t => t.Name == "Inuyasha");
+    }
 
-    var todos =
-        await response.Content.ReadFromJsonAsync<List<TodoResponse>>();
+    [Fact]
+    public async Task GetTodos_Should_Return_All_Todos()
+    {
+        await _client.PostAsJsonAsync("/api/todo", new CreateTodoRequest("Gurenn Lagann"));
+        await _client.PostAsJsonAsync("/api/todo", new CreateTodoRequest("Black Clover"));
+        await _client.PostAsJsonAsync("/api/todo", new CreateTodoRequest("Inuyasha"));
 
-    todos.Should().NotBeNull();
+        var response = await _client.GetAsync("/api/todo");
 
-    todos.Should().Contain(t => t.Name == "Gurenn Lagann");
-    todos.Should().Contain(t => t.Name == "Black Clover");
-    todos.Should().Contain(t => t.Name == "Inuyasha");
-}
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
 
- [Fact]
-public async Task GetTodos_Should_Return_All_Todos()
-{
-    await _client.PostAsJsonAsync(
-        "/api/todo",
-        new CreateTodoRequest("Gurenn Lagann"));
+        var todos = await response.Content.ReadFromJsonAsync<List<TodoResponse>>();
+        todos.Should().NotBeNull();
 
-    await _client.PostAsJsonAsync(
-        "/api/todo",
-        new CreateTodoRequest("Black Clover"));
+        todos.Should().Contain(t => t.Name == "Gurenn Lagann");
+        todos.Should().Contain(t => t.Name == "Black Clover");
+        todos.Should().Contain(t => t.Name == "Inuyasha");
 
-    await _client.PostAsJsonAsync(
-        "/api/todo",
-        new CreateTodoRequest("Inuyasha"));
+        todos.Should().BeOfType<List<TodoResponse>>();
+    }
 
-
-    var response = await _client.GetAsync("/api/todo");
-
-
-    response.StatusCode.Should().Be(HttpStatusCode.OK);
-
-    var todos =
-        await response.Content.ReadFromJsonAsync<List<TodoResponse>>();
-
-    todos.Should().NotBeNull();
-
-    todos.Should().Contain(t => t.Name == "Gurenn Lagann");
-    todos.Should().Contain(t => t.Name == "Black Clover");
-    todos.Should().Contain(t => t.Name == "Inuyasha");
-
-    todos.Should().BeOfType<List<TodoResponse>>();
-}
     [Fact]
     public async Task UpdateTodo_Should_Return_UpdatedTodo()
     {
@@ -107,6 +87,7 @@ public async Task GetTodos_Should_Return_All_Todos()
         var response = await _client.PutAsJsonAsync($"/api/todo/{createdTodo!.Id}", updateRequest);
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
+
         var updatedTodo = await response.Content.ReadFromJsonAsync<TodoResponse>();
         updatedTodo.Should().NotBeNull();
         updatedTodo!.Name.Should().Be(updateRequest.Name);
@@ -125,6 +106,7 @@ public async Task GetTodos_Should_Return_All_Todos()
         var response = await _client.PatchAsync($"/api/todo/{createdTodo!.Id}/complete", null);
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
+
         var completedTodo = await response.Content.ReadFromJsonAsync<TodoResponse>();
         completedTodo.Should().NotBeNull();
         completedTodo!.IsCompleted.Should().BeTrue();
@@ -145,16 +127,18 @@ public async Task GetTodos_Should_Return_All_Todos()
         var response = await _client.PatchAsync($"/api/todo/{createdTodo.Id}/incomplete", null);
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
+
         var notCompletedTodo = await response.Content.ReadFromJsonAsync<TodoResponse>();
         notCompletedTodo.Should().NotBeNull();
         notCompletedTodo!.IsCompleted.Should().BeFalse();
         notCompletedTodo.CreatedAt.Should().Be(createdTodo.CreatedAt);
         notCompletedTodo.UpdatedAt.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
     }
- [Fact]
-   public async Task DeleteTodo_Should_Return_NoContent()
-    {
 
+    [Fact]
+    public async Task DeleteTodo_Should_Return_NoContent()
+    {
+        
         var createRequest = new CreateTodoRequest("Death Note");
         var createResponse = await _client.PostAsJsonAsync("/api/todo", createRequest);
         var createdTodo = await createResponse.Content.ReadFromJsonAsync<TodoResponse>();
@@ -162,112 +146,182 @@ public async Task GetTodos_Should_Return_All_Todos()
         var response = await _client.DeleteAsync($"/api/todo/{createdTodo!.Id}");
 
         response.StatusCode.Should().Be(HttpStatusCode.NoContent);
-    }   
+    }
 
- [Fact]
-public async Task DeleteAllCompleted_Should_Remove_All_Completed_Todos_And_Keep_NotCompleted()
-{
-    var r1 = await _client.PostAsJsonAsync("/api/todo", new CreateTodoRequest("Black Star"));
-    var r2 = await _client.PostAsJsonAsync("/api/todo", new CreateTodoRequest("Shinra Kusakabe"));
-    var r3 = await _client.PostAsJsonAsync("/api/todo", new CreateTodoRequest("Arthur Boyle"));
+    [Fact]
+    public async Task DeleteAllCompleted_Should_Remove_All_Completed_Todos_And_Keep_NotCompleted()
+    {
+        await _client.PostAsJsonAsync("/api/todo", new CreateTodoRequest("Black Star"));
+        await _client.PostAsJsonAsync("/api/todo", new CreateTodoRequest("Shinra Kusakabe"));
+        await _client.PostAsJsonAsync("/api/todo", new CreateTodoRequest("Arthur Boyle"));
 
-    var t1 = await r1.Content.ReadFromJsonAsync<TodoResponse>();
-    var t2 = await r2.Content.ReadFromJsonAsync<TodoResponse>();
-    var t3 = await r3.Content.ReadFromJsonAsync<TodoResponse>();
+        await _client.PatchAsJsonAsync("/api/todo/update-all", new UpdateAllStatusRequest(true));
 
-    var updateRequest = new UpdateAllStatusRequest(true);
+        var beforeDeleteResponse = await _client.GetAsync("/api/todo?filter=completed");
+        var completedBefore = await beforeDeleteResponse.Content.ReadFromJsonAsync<List<TodoResponse>>();
+        completedBefore.Should().NotBeNull();
+        completedBefore.Should().NotBeEmpty();
 
-    await _client.PatchAsJsonAsync(
-        "/api/todo/update-all",
-        updateRequest);
+        var deleteResponse = await _client.DeleteAsync("/api/todo/completed");
+        deleteResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
-    var beforeDeleteResponse =
-        await _client.GetAsync("/api/todo?isCompleted=true");
+        var afterCompleted = await (await _client.GetAsync("/api/todo?filter=completed"))
+            .Content.ReadFromJsonAsync<List<TodoResponse>>();
+        afterCompleted.Should().NotBeNull();
+        afterCompleted!.Should().BeEmpty();
 
-    var completedBefore =
-        await beforeDeleteResponse.Content.ReadFromJsonAsync<List<TodoResponse>>();
+        var allTodos = await (await _client.GetAsync("/api/todo"))
+            .Content.ReadFromJsonAsync<List<TodoResponse>>();
+        allTodos.Should().NotBeNull();
+        allTodos!.Should().BeEmpty();
+    }
 
-    completedBefore.Should().NotBeNull();
- 
-    var deleteResponse =
-        await _client.DeleteAsync("/api/todo/completed");
+    [Fact]
+    public async Task UpdateAllStatus_Should_Update_All_Todos_To_Completed_Or_NotCompleted()
+    {
+        await _client.PostAsJsonAsync("/api/todo", new CreateTodoRequest("Tokyo Ghoul"));
+        await _client.PostAsJsonAsync("/api/todo", new CreateTodoRequest("Demon Slayer"));
+        await _client.PostAsJsonAsync("/api/todo", new CreateTodoRequest("One Piece"));
 
-    deleteResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+        var updateResponse = await _client.PatchAsJsonAsync("/api/todo/update-all", new UpdateAllStatusRequest(true));
+        updateResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
-    var afterCompleted =
-        await _client.GetAsync("/api/todo?isCompleted=true");
+        var todos = await (await _client.GetAsync("/api/todo"))
+            .Content.ReadFromJsonAsync<List<TodoResponse>>();
 
-    var completedAfter =
-        await afterCompleted.Content.ReadFromJsonAsync<List<TodoResponse>>();
+        todos.Should().NotBeNull();
+        todos!.Should().OnlyContain(t => t.IsCompleted);
 
-    completedAfter.Should().NotBeNull();
-    completedAfter!.Should().BeEmpty();
+        var updateResponseFalse = await _client.PatchAsJsonAsync("/api/todo/update-all", new UpdateAllStatusRequest(false));
+        updateResponseFalse.StatusCode.Should().Be(HttpStatusCode.OK);
 
-    var allTodosResponse =
-        await _client.GetAsync("/api/todo");
+        var notCompleted = await (await _client.GetAsync("/api/todo?filter=active"))
+            .Content.ReadFromJsonAsync<List<TodoResponse>>();
 
-    var allTodos =
-        await allTodosResponse.Content.ReadFromJsonAsync<List<TodoResponse>>();
+        notCompleted.Should().NotBeNull();
+        notCompleted!.Should().OnlyContain(t => !t.IsCompleted);
+    }
 
-    allTodos.Should().NotBeNull();
+    // ===== Branch coverage for TodoController (error paths + filter switch) =====
 
-    allTodos!.Should().BeEmpty();
+    [Fact]
+    public async Task GetTodos_When_Filter_Is_Active_Should_Return_Only_Active_Todos()
+    {
+        await _client.PostAsJsonAsync("/api/todo", new CreateTodoRequest("Active 1"));
+        await _client.PostAsJsonAsync("/api/todo", new CreateTodoRequest("Active 2"));
+
+        var completedTodoResponse = await _client.PostAsJsonAsync("/api/todo", new CreateTodoRequest("Completed"));
+        var completedTodo = await completedTodoResponse.Content.ReadFromJsonAsync<TodoResponse>();
+        await _client.PatchAsync($"/api/todo/{completedTodo!.Id}/complete", null);
+
+        var response = await _client.GetAsync("/api/todo?filter=active");
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var todos = await response.Content.ReadFromJsonAsync<List<TodoResponse>>();
+        todos.Should().NotBeNull();
+        todos!.Should().NotBeEmpty();
+        todos.Should().OnlyContain(t => !t.IsCompleted);
+    }
+
+    [Fact]
+    public async Task GetTodos_When_Filter_Is_Completed_Should_Return_Only_Completed_Todos()
+    {
+        var activeTodoResponse = await _client.PostAsJsonAsync("/api/todo", new CreateTodoRequest("Active"));
+        var activeTodo = await activeTodoResponse.Content.ReadFromJsonAsync<TodoResponse>();
+
+        var completedTodoResponse = await _client.PostAsJsonAsync("/api/todo", new CreateTodoRequest("Completed"));
+        var completedTodo = await completedTodoResponse.Content.ReadFromJsonAsync<TodoResponse>();
+        await _client.PatchAsync($"/api/todo/{completedTodo!.Id}/complete", null);
+
+        // Ensure the other one is not completed
+        (await _client.GetAsync($"/api/todo?filter=active")).StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var response = await _client.GetAsync("/api/todo?filter=completed");
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var todos = await response.Content.ReadFromJsonAsync<List<TodoResponse>>();
+        todos.Should().NotBeNull();
+        todos!.Should().NotBeEmpty();
+        todos.Should().OnlyContain(t => t.IsCompleted);
+        todos.Should().Contain(t => t.Id == completedTodo.Id);
+    }
+
+    [Fact]
+    public async Task UpdateTodo_When_Id_NotFound_Should_Return_NotFound()
+    {
+        var updateRequest = new UpdateTodoRequest("Castelvania");
+        var id = Guid.NewGuid();
+
+        var response = await _client.PutAsJsonAsync($"/api/todo/{id}", updateRequest);
+
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        var error = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+        error.Should().NotBeNull();
+        error!.error.Should().NotBeNullOrEmpty();
+    }
+
+    [Fact]
+    public async Task CreateTodo_When_Name_Empty_Should_Return_BadRequest()
+    {
+        // TodoItem.Create validates name and throws ArgumentException
+        var createRequest = new CreateTodoRequest("");
+        var response = await _client.PostAsJsonAsync("/api/todo", createRequest);
+
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        var error = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+        error.Should().NotBeNull();
+        error!.error.Should().NotBeNullOrEmpty();
+    }
+
+    [Fact]
+    public async Task MarkAsCompleted_When_Id_NotFound_Should_Return_NotFound()
+    {
+        var id = Guid.NewGuid();
+
+        var response = await _client.PatchAsync($"/api/todo/{id}/complete", null);
+
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        var error = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+        error.Should().NotBeNull();
+        error!.error.Should().NotBeNullOrEmpty();
+    }
+
+    [Fact]
+    public async Task MarkAsNotCompleted_When_Id_NotFound_Should_Return_NotFound()
+    {
+        var id = Guid.NewGuid();
+
+        var response = await _client.PatchAsync($"/api/todo/{id}/incomplete", null);
+
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        var error = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+        error.Should().NotBeNull();
+        error!.error.Should().NotBeNullOrEmpty();
+    }
+
+    [Fact]
+    public async Task Delete_When_Id_NotFound_Should_Return_NoContent()
+    {
+        var id = Guid.NewGuid();
+        var response = await _client.DeleteAsync($"/api/todo/{id}");
+
+        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+    }
+
+    [Fact]
+    public async Task Create_When_Valid_Should_Return_CreatedTodo_And_NotCompleted()
+    {
+        var createRequest = new CreateTodoRequest("Valid Todo");
+
+        var response = await _client.PostAsJsonAsync("/api/todo", createRequest);
+
+        response.StatusCode.Should().Be(HttpStatusCode.Created);
+        var createdTodo = await response.Content.ReadFromJsonAsync<TodoResponse>();
+        createdTodo.Should().NotBeNull();
+        createdTodo!.Name.Should().Be(createRequest.Name);
+        createdTodo.IsCompleted.Should().BeFalse();
+        createdTodo.UpdatedAt.Should().BeNull();
+    }
 }
 
 
- [Fact]
-public async Task UpdateAllStatus_Should_Update_All_Todos_To_Completed_Or_NotCompleted()
-{
-
-    var createRequest1 = new CreateTodoRequest("Tokyo Ghoul");
-    var createRequest2 = new CreateTodoRequest("Demon Slayer");
-    var createRequest3 = new CreateTodoRequest("One Piece");
-
-    var r1 = await _client.PostAsJsonAsync("/api/todo", createRequest1);
-    var r2 = await _client.PostAsJsonAsync("/api/todo", createRequest2);
-    var r3 = await _client.PostAsJsonAsync("/api/todo", createRequest3);
-
-    var t1 = await r1.Content.ReadFromJsonAsync<TodoResponse>();
-    var t2 = await r2.Content.ReadFromJsonAsync<TodoResponse>();
-    var t3 = await r3.Content.ReadFromJsonAsync<TodoResponse>();
-
-
-    var updateRequest = new UpdateAllStatusRequest(true);
-
-    var updateResponse =
-        await _client.PatchAsJsonAsync("/api/todo/update-all", updateRequest);
-
-
-    updateResponse.StatusCode.Should().Be(HttpStatusCode.OK);
-
-    var response = await _client.GetAsync("/api/todo");
-
-    response.StatusCode.Should().Be(HttpStatusCode.OK);
-
-    var todos =
-        await response.Content.ReadFromJsonAsync<List<TodoResponse>>();
-
-   
-    todos.Should().NotBeNull();
-    todos.Should().OnlyContain(t => t.IsCompleted);
-    todos.Should().Contain(t => t.Id == t1!.Id && t.IsCompleted);
-    todos.Should().Contain(t => t.Id == t2!.Id && t.IsCompleted);
-    todos.Should().Contain(t => t.Id == t3!.Id && t.IsCompleted);
-
-    var updateRequestFalse = new UpdateAllStatusRequest(false);
-
-    var updateResponseFalse =
-        await _client.PatchAsJsonAsync("/api/todo/update-all", updateRequestFalse);
-
-    updateResponseFalse.StatusCode.Should().Be(HttpStatusCode.OK);
-
-    var responseAfter =
-        await _client.GetAsync("/api/todo?isCompleted=false");
-
-    var notCompleted =
-        await responseAfter.Content.ReadFromJsonAsync<List<TodoResponse>>();
-
-    notCompleted.Should().NotBeNull();
-    notCompleted.Should().OnlyContain(t => !t.IsCompleted);
-}
-}

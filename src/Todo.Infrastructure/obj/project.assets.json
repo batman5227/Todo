@@ -1368,11 +1368,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\todomvc-nuxt\\Todo\\src\\Todo.Infrastructure\\Todo.Infrastructure.csproj",
+      "projectUniqueName": "D:\\Animé\\REZERO\\Todo\\src\\Todo.Infrastructure\\Todo.Infrastructure.csproj",
       "projectName": "Todo.Infrastructure",
-      "projectPath": "D:\\todomvc-nuxt\\Todo\\src\\Todo.Infrastructure\\Todo.Infrastructure.csproj",
+      "projectPath": "D:\\Animé\\REZERO\\Todo\\src\\Todo.Infrastructure\\Todo.Infrastructure.csproj",
       "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
-      "outputPath": "D:\\todomvc-nuxt\\Todo\\src\\Todo.Infrastructure\\obj\\",
+      "outputPath": "D:\\Animé\\REZERO\\Todo\\src\\Todo.Infrastructure\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -1394,8 +1394,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\todomvc-nuxt\\Todo\\src\\Todo.Application\\Todo.Application.csproj": {
-              "projectPath": "D:\\todomvc-nuxt\\Todo\\src\\Todo.Application\\Todo.Application.csproj"
+            "D:\\Animé\\REZERO\\Todo\\src\\Todo.Application\\Todo.Application.csproj": {
+              "projectPath": "D:\\Animé\\REZERO\\Todo\\src\\Todo.Application\\Todo.Application.csproj"
             }
           }
         }

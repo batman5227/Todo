@@ -49,9 +49,10 @@ public class MatheTests
     [Fact]
     public void Factorial_Should_Throw_When_Not_WorkingToday()
     {
-        var sut = new MatheService( new FakeExternalServiceWorkingToday(false));
+        var sut = new MatheService(new FakeExternalServiceWorkingToday(false));
         Assert.Throws<Exception>(() => sut.Factorial(0));
     }
+
 
     [Fact]
     public void Factorial_Should_Return_Value_When_WorkingToday2()
