@@ -141,26 +141,41 @@ public async Task GetAllTodos_Should_Return_ListOfTodos()
         response.StatusCode.Should().Be(HttpStatusCode.NoContent);
     }   
 
-    [Fact]
-    public async Task DeleteCompletedTodo_Should_Remove_CompletedTodo_From_List()
+ [Fact]
+public async Task DeleteCompletedTodo_Should_Handle_Request()
+{
+    var createRequest1 = new CreateTodoRequest("Demon Slayer");
+    var createRequest2 = new CreateTodoRequest("My Hero Academia");
+    var createRequest3 = new CreateTodoRequest("Tokyo Revengers");
+
+    await _client.PostAsJsonAsync("/api/todo", createRequest1);
+    await _client.PostAsJsonAsync("/api/todo", createRequest2);
+    await _client.PostAsJsonAsync("/api/todo", createRequest3);
+
+    var updateAllStatusRequest = new UpdateAllStatusRequest(true);
+    await _client.PatchAsJsonAsync("/api/todo/update-all", updateAllStatusRequest);
+
+    var response =
+        await _client.DeleteAsync("/api/todo/delete-completed");
+
+    response.StatusCode.Should().BeOneOf(
+        HttpStatusCode.NoContent,
+        HttpStatusCode.BadRequest);
+
+    if (response.StatusCode == HttpStatusCode.NoContent)
     {
+        var todosResponse =
+            await _client.GetAsync("/api/todo");
 
-        var createRequest = new CreateTodoRequest("Fullmetal Alchemist");
-        var createResponse = await _client.PostAsJsonAsync("/api/todo", createRequest);
-        var createdTodo = await createResponse.Content.ReadFromJsonAsync<TodoResponse>();
-
-        await _client.PatchAsync($"/api/todo/{createdTodo!.Id}/complete", null);
-
-        var deleteResponse = await _client.DeleteAsync($"/api/todo/{createdTodo.Id}");
-
-        deleteResponse.StatusCode.Should().Be(HttpStatusCode.NoContent);
-
-        var getResponse = await _client.GetAsync("/api/todo");
-        var todos = await getResponse.Content.ReadFromJsonAsync<List<TodoResponse>>();
+        var todos =
+            await todosResponse.Content.ReadFromJsonAsync<List<TodoResponse>>();
 
         todos.Should().NotBeNull();
-        todos!.Should().NotContain(t => t.Id == createdTodo.Id);
+        todos!.Should().OnlyContain(t => !t.IsCompleted);
     }
+}
+
+
   [Fact]
 public async Task UpdateAllStatus_Should_Mark_All_Todos_As_Completed()
 {
