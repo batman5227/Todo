@@ -10,7 +10,7 @@ namespace Todo.Domain.Models
         public bool IsCompleted { get; private set; }
         public DateTime CreatedAt { get; private set; }
         public DateTime? UpdatedAt { get; private set; }
-
+        public bool IsDeleted { get; set; }
 
         private TodoItem()
         {
@@ -65,6 +65,11 @@ public static TodoItem Create(string name)
         {
             IsCompleted = !IsCompleted;
             UpdatedAt = DateTime.UtcNow;
+        }
+
+        public void Delete()
+        {
+            throw new NotImplementedException();
         }
     }
 }
