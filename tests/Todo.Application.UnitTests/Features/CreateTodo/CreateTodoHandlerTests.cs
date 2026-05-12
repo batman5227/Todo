@@ -13,12 +13,11 @@ using Xunit;
 namespace Todo.Application.UnitTests.Features.CreateTodo;
 
 public class CreateTodoHandlerTests
-{
+{   
     [Fact]
     public async Task Handle_WhenRequestIsValid_ShouldCreateTodo()
     {
         var repo = new Mock<ITodoRepository>();
-        var mediator = new Mock<IMediator>();
 
         var handler = new CreateTodoHandler(repo.Object);
 

@@ -202,8 +202,6 @@ public class GetTodosTests : IClassFixture<CustomWebApplicationFactory>
         notCompleted!.Should().OnlyContain(t => !t.IsCompleted);
     }
 
-    // ===== Branch coverage for TodoController (error paths + filter switch) =====
-
     [Fact]
     public async Task GetTodos_When_Filter_Is_Active_Should_Return_Only_Active_Todos()
     {
@@ -233,7 +231,6 @@ public class GetTodosTests : IClassFixture<CustomWebApplicationFactory>
         var completedTodo = await completedTodoResponse.Content.ReadFromJsonAsync<TodoResponse>();
         await _client.PatchAsync($"/api/todo/{completedTodo!.Id}/complete", null);
 
-        // Ensure the other one is not completed
         (await _client.GetAsync($"/api/todo?filter=active")).StatusCode.Should().Be(HttpStatusCode.OK);
 
         var response = await _client.GetAsync("/api/todo?filter=completed");
@@ -263,7 +260,6 @@ public class GetTodosTests : IClassFixture<CustomWebApplicationFactory>
     [Fact]
     public async Task CreateTodo_When_Name_Empty_Should_Return_BadRequest()
     {
-        // TodoItem.Create validates name and throws ArgumentException
         var createRequest = new CreateTodoRequest("");
         var response = await _client.PostAsJsonAsync("/api/todo", createRequest);
 

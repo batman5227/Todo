@@ -1,49 +1,55 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-using FluentAssertions;
+
 using Moq;
-using Todo.Application.Features.MarkTodoAsNotCompleted;
+using FluentAssertions;
 using Todo.Application.DTOs;
+using Todo.Application.Features.MarkTodoAsNotCompleted;
 using Todo.Domain.Interfaces;
 using Todo.Domain.Models;
-using Xunit;
 
 namespace Todo.Application.UnitTests.Features.MarkTodoAsNotCompleted;
 
 public class MarkTodoAsNotCompletedHandlerTests
 {
     [Fact]
-    public async Task Handle_WhenTodoExists_ShouldMarkNotCompleted()
+    public async Task Handler_Should_Mark_Todo_As_Not_Completed()
     {
-        var id = Guid.NewGuid();
-        var todo = TodoItem.Create("Todo");
-        var idField = typeof(TodoItem).GetField("<Id>k__BackingField", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
-        idField!.SetValue(todo, id);
+        var todoId = Guid.NewGuid();
 
-        var repo = new Mock<ITodoRepository>();
-        repo.Setup(r => r.GetByIdAsync(id)).ReturnsAsync(todo);
+        var todo = TodoItem.Create("Test");
+        todo.MarkAsCompleted();
 
-        var handler = new MarkTodoAsNotCompletedHandler(repo.Object);
 
-        TodoResponse result = await handler.Handle(new MarkTodoAsNotCompletedCommand(id), CancellationToken.None);
+        var mockRepository = new Mock<ITodoRepository>();
+        mockRepository
+            .Setup(r => r.GetByIdAsync(todoId))
+            .ReturnsAsync(todo);
+
+        var handler = new MarkTodoAsNotCompletedHandler(mockRepository.Object);
+
+        TodoResponse result = await handler.Handle(new MarkTodoAsNotCompletedCommand(todoId), CancellationToken.None);
 
         result.IsCompleted.Should().BeFalse();
-        repo.Verify(r => r.UpdateAsync(todo), Times.Once);
+
+        mockRepository.Verify(r => r.GetByIdAsync(todoId), Times.Once);
+        mockRepository.Verify(r => r.UpdateAsync(It.IsAny<TodoItem>()), Times.Once);
+        mockRepository.Verify(r => r.MarkAsNotCompletedAsync(It.IsAny<Guid>()), Times.Never);
     }
 
     [Fact]
-    public async Task Handle_WhenTodoDoesNotExist_ShouldThrowKeyNotFoundException()
+    public async Task Handler_With_NonExistent_Todo_Should_Throw_KeyNotFoundException()
     {
-        var id = Guid.NewGuid();
+        var todoId = Guid.NewGuid();
 
-        var repo = new Mock<ITodoRepository>();
-        repo.Setup(r => r.GetByIdAsync(id)).ReturnsAsync((TodoItem?)null);
+        var mockRepository = new Mock<ITodoRepository>();
+        mockRepository.Setup(r => r.GetByIdAsync(todoId)).ReturnsAsync((TodoItem?)null);
 
-        var handler = new MarkTodoAsNotCompletedHandler(repo.Object);
+        var handler = new MarkTodoAsNotCompletedHandler(mockRepository.Object);
 
-        await FluentActions.Invoking(() => handler.Handle(new MarkTodoAsNotCompletedCommand(id), CancellationToken.None))
-            .Should().ThrowAsync<KeyNotFoundException>();
+        Func<Task> act = () => handler.Handle(new MarkTodoAsNotCompletedCommand(todoId), CancellationToken.None);
+
+        await act.Should().ThrowAsync<KeyNotFoundException>();
+        mockRepository.Verify(r => r.UpdateAsync(It.IsAny<TodoItem>()), Times.Never);
     }
 }
+
 

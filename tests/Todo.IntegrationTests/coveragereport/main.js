@@ -293,7 +293,7 @@ var assemblies = [
       { "name": "Microsoft.AspNetCore.OpenApi.Generated", "rp": "Todo.Api_Generated.html", "cl": 4, "ucl": 376, "cal": 380, "tl": 605, "cb": 0, "tb": 204, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "Program", "rp": "Todo.Api_Program.html", "cl": 38, "ucl": 4, "cal": 42, "tl": 66, "cb": 2, "tb": 2, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "System.Runtime.CompilerServices", "rp": "Todo.Api_CompilerServices.html", "cl": 0, "ucl": 3, "cal": 3, "tl": 23, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "Todo.Api.Controllers.TodoController", "rp": "Todo.Api_TodoController.html", "cl": 45, "ucl": 17, "cal": 62, "tl": 113, "cb": 4, "tb": 6, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "Todo.Api.Controllers.TodoController", "rp": "Todo.Api_TodoController.html", "cl": 59, "ucl": 3, "cal": 62, "tl": 113, "cb": 6, "tb": 6, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
     ]},
   {
     "name": "Todo.Application",
@@ -322,7 +322,7 @@ var assemblies = [
       { "name": "Todo.Application.Features.UpdateTodo.UpdateTodoCommand", "rp": "Todo.Application_UpdateTodoCommand.html", "cl": 0, "ucl": 2, "cal": 2, "tl": 9, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "Todo.Application.Features.UpdateTodo.UpdateTodoHandler", "rp": "Todo.Application_UpdateTodoHandler.html", "cl": 0, "ucl": 16, "cal": 16, "tl": 31, "cb": 0, "tb": 2, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "Todo.Application.Features.UpdateTodo.UpdateTodoValidator", "rp": "Todo.Application_UpdateTodoValidator.html", "cl": 0, "ucl": 5, "cal": 5, "tl": 14, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "Todo.Application.Services.TodoService", "rp": "Todo.Application_TodoService.html", "cl": 76, "ucl": 3, "cal": 79, "tl": 120, "cb": 5, "tb": 8, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "Todo.Application.Services.TodoService", "rp": "Todo.Application_TodoService.html", "cl": 79, "ucl": 0, "cal": 79, "tl": 120, "cb": 8, "tb": 8, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
     ]},
   {
     "name": "Todo.Domain",
@@ -330,13 +330,13 @@ var assemblies = [
       { "name": "Todo.Domain.FakeExternalServiceWorkingToday", "rp": "Todo.Domain_FakeExternalServiceWorkingToday.html", "cl": 0, "ucl": 4, "cal": 4, "tl": 58, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "Todo.Domain.Mathe", "rp": "Todo.Domain_Mathe.html", "cl": 0, "ucl": 12, "cal": 12, "tl": 58, "cb": 0, "tb": 8, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "Todo.Domain.MatheService", "rp": "Todo.Domain_MatheService.html", "cl": 0, "ucl": 10, "cal": 10, "tl": 58, "cb": 0, "tb": 2, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "Todo.Domain.Models.TodoItem", "rp": "Todo.Domain_TodoItem.html", "cl": 36, "ucl": 13, "cal": 49, "tl": 75, "cb": 6, "tb": 12, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "Todo.Domain.Models.TodoItem", "rp": "Todo.Domain_TodoItem.html", "cl": 37, "ucl": 12, "cal": 49, "tl": 75, "cb": 7, "tb": 12, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
     ]},
   {
     "name": "Todo.Infrastructure",
     "classes": [
       { "name": "Todo.Infrastructure.Data.AppDbContext", "rp": "Todo.Infrastructure_AppDbContext.html", "cl": 24, "ucl": 0, "cal": 24, "tl": 36, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "Todo.Infrastructure.Repositories.TodoRepository", "rp": "Todo.Infrastructure_TodoRepository.html", "cl": 41, "ucl": 1, "cal": 42, "tl": 75, "cb": 5, "tb": 6, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "Todo.Infrastructure.Repositories.TodoRepository", "rp": "Todo.Infrastructure_TodoRepository.html", "cl": 42, "ucl": 0, "cal": 42, "tl": 75, "cb": 6, "tb": 6, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
     ]},
 ];
 

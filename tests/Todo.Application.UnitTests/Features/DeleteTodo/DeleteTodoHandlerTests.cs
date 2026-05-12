@@ -18,7 +18,7 @@ public class DeleteTodoHandlerTests
     public async Task Handle_WhenTodoExists_ShouldDelete()
     {
         var id = Guid.NewGuid();
-        var todo = TodoItem.Create("Todo");
+        var todo = TodoItem.Create("Yann");
 
         var repo = new Mock<ITodoRepository>();
         repo.Setup(r => r.GetByIdAsync(id)).ReturnsAsync(todo);

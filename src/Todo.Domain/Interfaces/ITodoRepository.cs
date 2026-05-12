@@ -14,5 +14,7 @@ namespace Todo.Domain.Interfaces
         Task DeleteAsync(TodoItem todo);
         Task DeleteAllCompletedAsync();
         Task UpdateAllStatusAsync(bool isCompleted);
+        Task MarkAsCompletedAsync(Guid id);
+        Task MarkAsNotCompletedAsync(Guid id);
     }
 }

@@ -17,10 +17,10 @@ namespace Todo.Application.UnitTests.Features.GetTodos;
 public class GetTodosHandlerTests
 {
     [Fact]
-    public async Task Handle_ShouldReturnOrderedMappedTodos()
+    public async Task Handle_Should_Return_Ordered_Mapped_Todos()
     {
         var repo = new Mock<ITodoRepository>();
-        var mediator = new Mock<IMediator>();
+
 
         var older = TodoItem.Create("Older");
         var newer = TodoItem.Create("Newer");
@@ -42,7 +42,7 @@ public class GetTodosHandlerTests
 
         var result = (await handler.Handle(new GetTodosQuery(null), CancellationToken.None)).ToList();
 
-        result.Should().HaveCount(3);
+
         result.Select(r => r.Name).Should().Equal(list.OrderBy(t => t.CreatedAt).Select(t => t.Name));
 
         result.All(r => r is TodoResponse).Should().BeTrue();
